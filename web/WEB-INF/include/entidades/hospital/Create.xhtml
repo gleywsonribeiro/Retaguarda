@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HospitalCreateDlg" widgetVar="HospitalCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.CreateHospitalTitle}">
+
+            <h:form id="HospitalCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{hospitalController.selected != null}">
+
+                        <p:outputLabel value="#{bundle.CreateHospitalLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{hospitalController.selected.nome}" title="#{bundle.CreateHospitalTitle_nome}" required="true" requiredMessage="#{bundle.CreateHospitalRequiredMessage_nome}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{hospitalController.saveNew}" value="#{bundle.Save}" update="display,:HospitalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,HospitalCreateDialog);"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="HospitalCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

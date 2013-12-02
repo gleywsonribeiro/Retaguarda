@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LeitoViewDlg" widgetVar="LeitoViewDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.ViewLeitoTitle}">
+
+            <h:form id="LeitoViewForm">
+
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{leitoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewLeitoLabel_id}"/>
+                        <h:outputText value="#{leitoController.selected.id}" title="#{bundle.ViewLeitoTitle_id}"/>
+
+                        <h:outputText value="#{bundle.ViewLeitoLabel_nome}"/>
+                        <h:outputText value="#{leitoController.selected.nome}" title="#{bundle.ViewLeitoTitle_nome}"/>
+
+                        <h:outputText value="#{bundle.ViewLeitoLabel_tipo}"/>
+                        <h:outputText value="#{leitoController.selected.tipo}" title="#{bundle.ViewLeitoTitle_tipo}"/>
+
+                        <h:outputText value="Ocupado"/>                       
+                        <h:selectBooleanCheckbox value="#{leitoController.selected.ocupado}" disabled="true"/>
+                        
+                        <h:outputText value="#{bundle.ViewLeitoLabel_hospital}"/>
+                        <h:outputText value="#{leitoController.selected.hospital.nome}"/>
+                    </h:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="LeitoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

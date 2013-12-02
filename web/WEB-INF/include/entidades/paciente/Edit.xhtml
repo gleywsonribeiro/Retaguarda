@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PacienteEditDlg" widgetVar="PacienteEditDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.EditPacienteTitle}">
+
+            <h:form id="PacienteEditForm">
+
+                <h:panelGroup id="display">
+                    <h:panelGrid  columns="2" rendered="#{pacienteController.selected != null}">
+
+                        <h:outputLabel value="#{bundle.EditPacienteLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{pacienteController.selected.id}" />
+
+                        <p:outputLabel value="#{bundle.EditPacienteLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{pacienteController.selected.nome}" title="#{bundle.EditPacienteTitle_nome}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_nome}"/>
+
+                        <p:outputLabel value="#{bundle.EditPacienteLabel_rh}" for="rh" />
+                        <p:inputText id="rh" value="#{pacienteController.selected.rh}" title="#{bundle.EditPacienteTitle_rh}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_rh}"/>
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_especialidade}" for="especialidade" />
+                        <p:selectOneMenu id="especialidade" value="#{pacienteController.selected.especialidade}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pacienteController.especialidades}"/>                           
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditPacienteLabel_hospital}" for="hospital" />
+                        <p:selectOneMenu id="hospital" value="#{pacienteController.selected.hospital}"  converter="hospitalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{hospitalController.items}"
+                                           var="hospitalItem"
+                                           itemValue="#{hospitalItem}"
+                                           itemLabel="#{hospitalItem.nome}"
+                                           />
+                            <p:ajax update="leito"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditPacienteLabel_leito}" for="leito" />
+                        <p:selectOneMenu id="leito" value="#{pacienteController.selected.leito}"  converter="leitoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pacienteController.selected.hospital.leitos}"
+                                           var="leitoItem"
+                                           itemValue="#{leitoItem}"
+                                           itemLabel="#{leitoItem.nome}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{pacienteController.save}" value="#{bundle.Save}" update="display,:PacienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PacienteEditDialog);"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PacienteEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

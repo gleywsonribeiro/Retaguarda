@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PacienteViewDlg" widgetVar="PacienteViewDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.ViewPacienteTitle}">
+
+            <h:form id="PacienteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_id}"/>
+                        <h:outputText value="#{pacienteController.selected.id}" title="#{bundle.ViewPacienteTitle_id}"/>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_dataEntrada}"/>
+                        <h:outputText value="#{pacienteController.selected.dataEntrada}" title="#{bundle.ViewPacienteTitle_dataEntrada}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_dataSaida}"/>
+                        <h:outputText value="#{pacienteController.selected.dataSaida}" title="#{bundle.ViewPacienteTitle_dataSaida}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_nome}"/>
+                        <h:outputText value="#{pacienteController.selected.nome}" title="#{bundle.ViewPacienteTitle_nome}"/>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_rh}"/>
+                        <h:outputText value="#{pacienteController.selected.rh}" title="#{bundle.ViewPacienteTitle_rh}"/>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_especialidade}"/>
+                        <h:outputText value="#{pacienteController.selected.especialidade}" title="#{bundle.ViewPacienteTitle_especialidade}"/>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_hospital}"/>
+                        <h:outputText value="#{pacienteController.selected.hospital.nome}"/>
+
+                        <h:outputText value="#{bundle.ViewPacienteLabel_leito}"/>
+                        <h:outputText value="#{pacienteController.selected.leito.nome}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PacienteViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PacienteCreateDlg" widgetVar="PacienteCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.CreatePacienteTitle}">
+
+            <h:form id="PacienteCreateForm">
+
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_dataEntrada}" for="dataEntrada" />
+                        <p:calendar disabled="true" id="dataEntrada" locale="pt" navigator="true" pattern="dd/MM/yyyy" value="#{pacienteController.selected.dataEntrada}" title="#{bundle.EditPacienteTitle_dataEntrada}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_dataEntrada}" showOn="button"/>
+                        
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{pacienteController.selected.nome}" title="#{bundle.CreatePacienteTitle_nome}" required="true" requiredMessage="#{bundle.CreatePacienteRequiredMessage_nome}"/>
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_rh}" for="rh" />
+                        <p:inputText id="rh" value="#{pacienteController.selected.rh}" title="#{bundle.CreatePacienteTitle_rh}" required="true" requiredMessage="#{bundle.CreatePacienteRequiredMessage_rh}"/>
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_especialidade}" for="especialidade" />
+                        <p:selectOneMenu id="especialidade" value="#{pacienteController.selected.especialidade}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pacienteController.especialidades}"/>                           
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_hospital}" for="hospital" />
+                        <p:selectOneMenu id="hospital" value="#{pacienteController.selected.hospital}"  converter="hospitalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{hospitalController.items}"
+                                           var="hospitalItem"
+                                           itemValue="#{hospitalItem}"
+                                           itemLabel="#{hospitalItem.nome}"
+                                           />
+                            <p:ajax update="leito"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreatePacienteLabel_leito}" for="leito" />
+                        <p:selectOneMenu id="leito" value="#{pacienteController.selected.leito}"  converter="leitoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pacienteController.selected.hospital.leitos}"
+                                           var="leitoItem"
+                                           itemValue="#{leitoItem}"
+                                           itemLabel="#{leitoItem.nome}"
+                                           />
+
+                        </p:selectOneMenu>
+                        
+                       
+
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{pacienteController.saveNew}" value="#{bundle.Save}" update="display,:PacienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PacienteCreateDialog);"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PacienteCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

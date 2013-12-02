@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LeitoCreateDlg" widgetVar="LeitoCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{bundle.CreateLeitoTitle}">
+
+            <h:form id="LeitoCreateForm">
+
+                <h:panelGroup id="display">
+                    <h:panelGrid columns="2" rendered="#{leitoController.selected != null}">
+
+                        <p:outputLabel value="#{bundle.CreateLeitoLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{leitoController.selected.nome}" title="#{bundle.CreateLeitoTitle_nome}" required="true" requiredMessage="#{bundle.CreateLeitoRequiredMessage_nome}"/>
+
+                        <p:outputLabel value="#{bundle.CreateLeitoLabel_tipo}" for="tipo" />
+                        <p:selectOneMenu id="tipo" value="#{leitoController.selected.tipo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{leitoController.tipos}"/>                           
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateLeitoLabel_hospital}" for="hospital" />
+                        <p:selectOneMenu id="hospital" value="#{leitoController.selected.hospital}"  converter="hospitalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{hospitalController.items}"
+                                           var="hospitalItem"
+                                           itemValue="#{hospitalItem}"
+                                           itemLabel="#{hospitalItem.nome}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <p:commandButton actionListener="#{leitoController.saveNew}" value="#{bundle.Save}" update="display,:LeitoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,LeitoCreateDialog);"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="LeitoCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

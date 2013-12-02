@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PacienteListForm">
+
+        <p:panel header="#{bundle.ListPacienteTitle}">            
+            <p:dataTable id="datalist" value="#{pacienteController.items}" var="item"
+                         selectionMode="single" selection="#{pacienteController.selected}"
+                         rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         emptyMessage="#{bundle.ListaVazia}">
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                <f:facet name="header">
+                    <p:outputPanel>                         
+                        <p:inputText id="busca" style="width:150px"/>
+                        <p:watermark for="busca" value="buscar"/>
+                        <p:commandButton actionListener="#" value="ok" icon="ui-icon-search"/>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column sortBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+                <p:column sortBy="#{item.dataEntrada}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_dataEntrada}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataEntrada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.dataSaida}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_dataSaida}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dataSaida}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column sortBy="#{item.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_nome}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+                <p:column sortBy="#{item.rh}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_rh}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rh}"/>
+                </p:column>
+                <p:column sortBy="#{item.especialidade}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_especialidade}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.especialidade}"/>
+                </p:column>
+                <p:column sortBy="#{item.hospital.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_hospital}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.hospital.nome}"/>
+                </p:column>
+                <p:column sortBy="#{item.leito.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPacienteTitle_leito}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.leito.nome}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="Entrada" actionListener="#{pacienteController.prepareCreate}" update=":PacienteCreateForm" oncomplete="PacienteCreateDialog.show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PacienteViewForm" oncomplete="PacienteViewDialog.show()" disabled="#{empty pacienteController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Alterar/Movimentar" update=":PacienteEditForm" oncomplete="PacienteEditDialog.show()" disabled="#{empty pacienteController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Alta Hospitalar" actionListener="#{pacienteController.delete}" update=":growl,datalist" disabled="#{empty pacienteController.selected}">
+                            <p:confirm header="Alta do Paciente" message="Está certo disso?" icon="ui-icon-alert"/>
+                        </p:commandButton>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        </p:confirmDialog>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>
